@@ -1,0 +1,22 @@
+dist: xenial
+language: scala
+script:
+  - ./run.sh $SCALA_BRANCH
+scala:
+  # This is actually overridden by the run.sh script
+  - 2.13.1
+jdk:
+  - openjdk8
+env:
+  - SCALA_BRANCH=2.11.x
+  - SCALA_BRANCH=2.12.x
+  - SCALA_BRANCH=2.13.x
+
+cache:
+  directories:
+    - "$HOME/.ivy2/cache"
+    - "$HOME/.sbt"
+before_cache:
+  # Cleanup the cached directories to avoid unnecessary cache updates
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt -name "*.lock" -print -delete
