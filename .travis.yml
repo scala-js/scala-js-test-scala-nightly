@@ -4,16 +4,19 @@ before_install:
   - nvm install 12.13.0
 script:
   - node -v
-  - ./run.sh $SCALA_BRANCH
+  - ./run.sh $SCALA_BRANCH $SCALAJS_BRANCH
 scala:
   # This is actually overridden by the run.sh script
   - 2.13.1
 jdk:
   - openjdk8
 env:
-  - SCALA_BRANCH=2.11.x
-  - SCALA_BRANCH=2.12.x
-  - SCALA_BRANCH=2.13.x
+  - SCALA_BRANCH=2.11.x SCALAJS_BRANCH=master
+  - SCALA_BRANCH=2.12.x SCALAJS_BRANCH=master
+  - SCALA_BRANCH=2.13.x SCALAJS_BRANCH=master
+  - SCALA_BRANCH=2.11.x SCALAJS_BRANCH=0.6.x
+  - SCALA_BRANCH=2.12.x SCALAJS_BRANCH=0.6.x
+  - SCALA_BRANCH=2.13.x SCALAJS_BRANCH=0.6.x
 
 cache:
   directories:
