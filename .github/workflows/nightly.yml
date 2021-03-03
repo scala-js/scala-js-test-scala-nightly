@@ -1,0 +1,28 @@
+name: Nightly
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 2 * * *' # run at 2 AM UTC
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        scalabranch: ["2.11.x", "2.12.x", "2.13.x"]
+        scalajsbranch: ["master"]
+    env:
+      SCALA_BRANCH: "${{ matrix.scalabranch }}"
+      SCALAJS_BRANCH: "master"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: olafurpg/setup-scala@v10
+        with:
+          java-version: "adopt@1.8"
+      - uses: coursier/cache-action@v5
+      - name: Node.js version
+        run: node -v
+      - name: Test
+        run: ./run.sh "${{ matrix.scalabranch }}" "${{ matrix.scalajsbranch }}"
