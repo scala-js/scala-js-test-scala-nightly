@@ -10,7 +10,7 @@ echo "Project suffix: $SUFFIX"
 echo "Scala.js branch: $SCALAJS_BRANCH"
 
 case $SCALAJS_BRANCH in
-  master)
+  main)
     TESTS="testSuite$SUFFIX/test testSuiteJVM$SUFFIX/test ir$SUFFIX/test irJS$SUFFIX/test linker$SUFFIX/test linkerJS$SUFFIX/test"
     ;;
   *)
