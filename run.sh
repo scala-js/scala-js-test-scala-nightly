@@ -25,4 +25,5 @@ git clone https://github.com/scala-js/scala-js.git && \
 cd scala-js && \
 git checkout $SCALAJS_BRANCH && \
 npm install && \
+sbt -J-Xmx5G 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' ++$SCALA_VERSION helloworld$SUFFIX/run && \
 sbt -J-Xmx5G 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' ++$SCALA_VERSION $TESTS
