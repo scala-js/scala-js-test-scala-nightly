@@ -1,3 +1,5 @@
+set -e
+
 SCALA_BRANCH="$1"
 SCALAJS_BRANCH="$2"
 
@@ -11,7 +13,7 @@ echo "Scala.js branch: $SCALAJS_BRANCH"
 
 case $SCALAJS_BRANCH in
   main)
-    TESTS="testSuite$SUFFIX/test testSuiteJVM$SUFFIX/test ir$SUFFIX/test irJS$SUFFIX/test linker$SUFFIX/test linkerJS$SUFFIX/test"
+    TESTS="helloworld$SUFFIX/run testSuite$SUFFIX/test testSuiteJVM$SUFFIX/test ir$SUFFIX/test irJS$SUFFIX/test linker$SUFFIX/test linkerJS$SUFFIX/test"
     ;;
   *)
     echo "Unknown Scala.js branch $SCALAJS_BRANCH"
@@ -20,10 +22,12 @@ esac
 
 echo "Tests:" $TESTS
 
-rm -rf scala-js/ && \
-git clone https://github.com/scala-js/scala-js.git && \
-cd scala-js && \
-git checkout $SCALAJS_BRANCH && \
-npm install && \
-sbt -J-Xmx5G 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' ++$SCALA_VERSION helloworld$SUFFIX/run && \
-sbt -J-Xmx5G 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' ++$SCALA_VERSION $TESTS
+rm -rf scala-js/
+git clone https://github.com/scala-js/scala-js.git
+cd scala-js
+git checkout $SCALAJS_BRANCH
+npm install
+
+for TEST in $TESTS; do
+  sbt -J-Xmx5G 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' ++$SCALA_VERSION $TEST
+done
