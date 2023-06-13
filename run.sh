@@ -5,6 +5,7 @@ SCALAJS_BRANCH="$2"
 
 SCALA_VERSION=$(wget -q -O - https://raw.githubusercontent.com/scala/community-builds/$SCALA_BRANCH/nightly.properties | grep '^nightly=' | cut -d '=' -f2)
 SUFFIX=$(echo $SCALA_BRANCH | tr '.' '_' | cut -d '_' -f1-2)
+COMPACT_SUFFIX=$(echo $SUFFIX | tr -d '_')
 
 echo "Scala branch: $SCALA_BRANCH"
 echo "Scala version: $SCALA_VERSION"
@@ -31,5 +32,5 @@ npm install
 for TESTRAW in $TESTS; do
   TEST=$(echo $TESTRAW | tr '~' ' ')
   echo "RUNNING test '$TEST'..."
-  sbt -J-Xmx5G 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' ++$SCALA_VERSION "$TEST"
+  sbt -J-Xmx5G 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' "set ThisBuild / cross${COMPACT_SUFFIX}ScalaVersions += \"$SCALA_VERSION\"" "$TEST"
 done
