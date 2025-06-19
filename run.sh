@@ -23,6 +23,8 @@ esac
 
 echo "Tests:" $TESTS
 
+export SBT_OPTS='-Xmx6g -Xms1g -Xss4m'
+
 rm -rf scala-js/
 git clone https://github.com/scala-js/scala-js.git
 cd scala-js
@@ -32,5 +34,5 @@ npm install
 for TESTRAW in $TESTS; do
   TEST=$(echo $TESTRAW | tr '~' ' ')
   echo "RUNNING test '$TEST'..."
-  sbt -J-Xmx5G 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' "set ThisBuild / cross${COMPACT_SUFFIX}ScalaVersions += \"$SCALA_VERSION\"" "$TEST"
+  sbt 'set resolvers in Global += "scala-integration" at "https://scala-ci.typesafe.com/artifactory/scala-integration/"' "set ThisBuild / cross${COMPACT_SUFFIX}ScalaVersions += \"$SCALA_VERSION\"" "$TEST"
 done
