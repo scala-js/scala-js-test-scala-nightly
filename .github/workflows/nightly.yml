@@ -18,10 +18,11 @@ jobs:
       SCALAJS_BRANCH: "main"
     steps:
       - uses: actions/checkout@v3
-      - uses: olafurpg/setup-scala@v14
+      - name: Set up JDK 17
+        uses: coursier/setup-action@v1
         with:
-          java-version: "adopt@1.8"
-      - uses: coursier/cache-action@v6
+          jvm: temurin:1.17
+          apps: sbt
       - name: Node.js version
         run: node -v
       - name: Test
